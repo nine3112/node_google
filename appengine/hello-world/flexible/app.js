@@ -28,9 +28,12 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello, world!').end();
 });
 
-app.post('/api', function (req2, res) {
+app.options('/api', function (req2, res) {
   // res.send('<h1>Hello Node.js</h1>');
   // res.setHeader('Content-Type', 'application/json');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   console.log(req2.body);
   if(req2.body && (!req2.body.path && !req2.body.token)){
     
