@@ -34,11 +34,11 @@ app.options('/api', function (req2, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-  console.log(req2.body);
-  if(req2.body && (!req2.body.path && !req2.body.token)){
+  console.log(req2);
+//   if(req2.body && (!req2.body.path && !req2.body.token)){
     
-      req2.body = JSON.parse(req2.body);
-  }
+//       req2.body = JSON.parse(req2.body);
+//   }
   if (req2.body && req2.body.path && req2.body.token) {
       var request = require("request");
       console.log('https://api.medium.com' + req2.body.path)
