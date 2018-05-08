@@ -17,11 +17,50 @@
 
 // [START app]
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
-
+app.use(bodyParser.json()); // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
+    extended: true
+}));
 app.get('/', (req, res) => {
   res.status(200).send('Hello, world!').end();
+});
+
+app.post('/api', function (req2, res) {
+  // res.send('<h1>Hello Node.js</h1>');
+  // res.setHeader('Content-Type', 'application/json');
+  console.log(req2.body);
+  if(req2.body && (!req2.body.path && !req2.body.token)){
+    
+      req2.body = JSON.parse(req2.body);
+  }
+  if (req2.body && req2.body.path && req2.body.token) {
+      var request = require("request");
+      console.log('https://api.medium.com' + req2.body.path)
+      var options = {
+          method: 'GET',
+          url: 'https://api.medium.com' + req2.body.path,
+          headers: {
+              'cache-control': 'no-cache',
+              authorization: req2.body.token
+          }
+      };
+
+      request(options, function (error, response, body) {
+          if (error) throw new Error(error);
+          console.log(body);
+          var json = JSON.parse(body);
+          res.json(json)
+      });
+      // res.send(`${Date.now()}`);
+  } else {
+      var json = {
+          'message': 'No Request'
+      };
+      res.json(json)
+  }
 });
 
 // Start the server
